@@ -8,5 +8,18 @@
   "license": "MIT",
   "dependencies": {
     "discord.js": "discordjs/discord.js"
-  }
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-aqua": "^7.1.2"
+  },    
+  "eslintConfig": {
+    "extends": "aqua/node",
+    "rules":{
+      "linebreak-style": ["error", "windows"],
+      "quotes": ["warn", "double"],
+      "indent": ["error", 2],
+      "curly": "off"
+    }
+}
 }

@@ -1,0 +1,12 @@
+{
+  "name": "hyperion",
+  "version": "Beta 0.1",
+  "description": "Bot de pratique",
+  "main": "index.js",
+  "repository": "https://github.com/Sportek/botdiscord.git",
+  "author": "Sportek <gabdry007@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "discordjs/discord.js"
+  }
+}

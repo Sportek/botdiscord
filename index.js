@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const client = new Discord.Client();
+const client = new Discord.Client({disableEveryone : true});
 
 client.on("ready", () =>{
   console.log(`Connecté en tant que ${client.user.username}!`);

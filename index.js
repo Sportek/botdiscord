@@ -9,4 +9,19 @@ client.on("message", msg => {
     msg.channel.send(`Pong ! ${msg.author}`);
   }
 });
+
+// Séparation des arguments d'une commande
+// if (msg.author.bot) return
+// if (!msg.guild) return
+
+client.on("message", msg => {
+  const args = msg.content.split(/ +/g);
+  const cmd = args.shift().toLowerCase();
+  if (cmd === `${PREFIX}repeat`) {
+    msg.channel.send(args.join(" "));
+    msg.delete({ timeout: 3000 }).then(console.log("Un message a été supprimé."));
+  }
+});
+
+
 client.login(TOKEN);

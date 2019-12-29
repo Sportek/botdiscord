@@ -5,17 +5,6 @@ const fs = require("fs");
 
 client.PREFIX = PREFIX;
 
-fs.readdir("./events/", (err, files) => {
-  if (err) return console.error;
-  files.forEach(file => {
-    if (!file.endsWith(".js")) return;
-    const evt = require(`./events/${file}`);
-    const evtName = file.split(".")[0];
-    console.log(`Loaded event '${evtName}'`);
-    client.on(evtName, evt.bind(null, client));
-  });
-});
-
 client.commands = new Collection();
 
 fs.readdir("./commands/", async (err, files) => {
@@ -29,4 +18,14 @@ fs.readdir("./commands/", async (err, files) => {
   });
 });
 
+fs.readdir("./events/", (err, files) => {
+  if (err) return console.error;
+  files.forEach(file => {
+    if (!file.endsWith(".js")) return;
+    const evt = require(`./events/${file}`);
+    const evtName = file.split(".")[0];
+    console.log(`Loaded event '${evtName}'`);
+    client.on(evtName, evt.bind(null, client));
+  });
+});
 client.login(TOKEN);

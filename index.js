@@ -1,27 +1,32 @@
-const Discord = require("discord.js");
+const { Client, Collection } = require("discord.js");
 const { TOKEN, PREFIX } = require("./config");
-const client = new Discord.Client({ disableEveryone: true });
+const client = new Client({ disableEveryone: true });
+const fs = require("fs");
 
-client.on("ready", () => { console.log(`Connecté en tant que ${client.user.username}!`); });
+client.PREFIX = PREFIX;
 
-client.on("message", msg => {
-  if (msg.content.toLowerCase() === "ping") {
-    msg.channel.send(`Pong ! ${msg.author}`);
-  }
+fs.readdir("./events/", (err, files) => {
+  if (err) return console.error;
+  files.forEach(file => {
+    if (!file.endsWith(".js")) return;
+    const evt = require(`./events/${file}`);
+    const evtName = file.split(".")[0];
+    console.log(`Loaded event '${evtName}'`);
+    client.on(evtName, evt.bind(null, client));
+  });
 });
 
-// Séparation des arguments d'une commande
-// if (msg.author.bot) return
-// if (!msg.guild) return
+client.commands = new Collection();
 
-client.on("message", msg => {
-  const args = msg.content.split(/ +/g);
-  const cmd = args.shift().toLowerCase();
-  if (cmd === `${PREFIX}repeat`) {
-    msg.channel.send(args.join(" "));
-    msg.delete({ timeout: 3000 }).then(console.log("Un message a été supprimé."));
-  }
+fs.readdir("./commands/", async (err, files) => {
+  if (err) return console.error;
+  files.forEach(file => {
+    if (!file.endsWith(".js")) return;
+    const props = require(`./commands/${file}`);
+    const cmdName = file.split(".")[0];
+    console.log(`Loaded command '${cmdName}'`);
+    client.commands.set(cmdName, props);
+  });
 });
-
 
 client.login(TOKEN);
